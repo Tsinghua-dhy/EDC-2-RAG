@@ -55,7 +55,6 @@ See the paper for full ablation studies and robustness testing.
 
 ### Our code and datasets will be uploaded before 23:59, April 12 (Anywhere on Earth, AOE).
 🕒 Deadline: **[April 12, 2025 23:59 AOE](https://www.timeanddate.com/worldclock/fixedtime.html?msg=Deadline&iso=20250412T2359&p1=1440)**  
-⏳ Time left: **⏱️ <sub><time datetime="2025-04-12T23:59:00-12:00">Loading countdown...</time></sub>**
 
 ## 📄 Citation
 
