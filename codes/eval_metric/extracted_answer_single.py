@@ -54,7 +54,7 @@ def process_slice(slice_cases):
 
 def run():
     global eval_method, date, dataset
-    res_file = f"../{benchmark}/extracted_answer{date}_{dataset}_baseline_wo_retrieve_{eval_method}.json"
+    res_file = f"../{benchmark}/extracted_answer/{date}_{dataset}_baseline_wo_retrieve_{eval_method}.json"
     case_file = f"../../{benchmark}/results/{date}_{dataset}_baseline_wo_retrieve_{eval_method}.json"
     with open(case_file, "r", encoding="utf-8") as lines:
         cases = json.load(lines)
