@@ -48,13 +48,29 @@ Retrieval-Augmented Generation (RAG) enhances LLM outputs by integrating externa
 |----------------|-----------|------|------------------|------------------|
 | TriviaQA       | F1 Score  | 93.78 | 93.29           | **93.81**        |
 | WebQ           | F1 Score  | 88.75 | 88.25           | **89.23**        |
-| HaluEval       | Accuracy  | 76.93 | 77.80           | **78.85**        |
-| FELM           | Bal. Acc. | 55.65 | 61.89           | **62.26**        |
+| FELM           | Bal. Acc. | 55.65 | -----           | **62.26**        |
 
 See the paper for full ablation studies and robustness testing.
 
-### Our code and datasets will be uploaded before 23:59, April 14 (Anywhere on Earth, AOE).
-🕒 Deadline: **[April 14, 2025 23:59 AOE](https://www.timeanddate.com/worldclock/fixedtime.html?msg=Deadline&iso=20250414T2359&p1=1440)**  
+## 🧪 Getting Started
+
+### 1. Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 2. Prepare Data
+
+Download raw datasets of triviaqa and webq.
+
+### 3. Evaluate Results
+
+```bash
+bash run.sh
+```
+
+### Up to now, we have only released the evaluation code and datasets related to the main experiments on TriviaQA and WebQ. We will later update the code for the ablation studies and hallucination detection datasets. If you need additional datasets or code, please feel free to contact us.
 
 ## 📄 Citation
 
