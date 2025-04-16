@@ -29,5 +29,5 @@ elif eval_model == "qwen_request":
 subprocess.run(["python", "../eval_metric/extracted_answer_topkk_compress.py", date, dataset, eval_method, topkk, noises,benchmark])
 print("end_extracte_answer")
 print("start_to_caculate_F1_EM")   
-subprocess.run(["python", "../eval_metric/caculate_F1_EM_compress.py", date, dataset, eval_method, topkk, noise,benchmarks])
+subprocess.run(["python", "../eval_metric/caculate_F1_EM_compress.py", date, dataset, eval_method, topkk, noises, benchmark])
 print("end_caculate_F1_EM")

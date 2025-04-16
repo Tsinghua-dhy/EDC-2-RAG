@@ -73,7 +73,7 @@ def run(topk,noise):
     global eval_method, date, dataset, benchmark
     res_file = f"../{benchmark}/results/{date}_{dataset}_compress_{eval_method}_noise{noise}_topk{topk}.json"
     eval_method_1 = eval_method.split("_")[-1]
-    case_file = f"../{benchmark}/datasets/case_{date}_{dataset}_summary_baseline_compress_{eval_method_1}_{benchmark}_noise{noise}_topk{topk}.json"
+    case_file = f"../{benchmark}/datasets/case_{date}_{dataset}_summary_baseline_compress_{eval_method_1}_noise{noise}_topk{topk}.json"
     with open(case_file, "r", encoding="utf-8") as lines:
         cases = json.load(lines)
         json_data = []
