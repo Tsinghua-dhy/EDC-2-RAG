@@ -7,8 +7,7 @@
 
 This repository contains the official implementation of **EDC²-RAG**, a plug-and-play document preprocessing framework that enhances Retrieval-Augmented Generation (RAG) by dynamically clustering and compressing retrieved documents. Our method improves the robustness, relevance, and factuality of LLM-based generation systems by leveraging fine-grained inter-document relationships.
 
-> 📄 [Read the Paper on arXiv](https://arxiv.org/abs/2504.03165)  
-> 🔬 Developed by [Tsinghua University NLP](https://github.com/thunlp)
+
 
 ## 🔍 Overview
 
@@ -71,25 +70,5 @@ bash run.sh
 ```
 
 Up to now, we have only released the evaluation code and datasets related to the main experiments on TriviaQA and WebQ. We will later update the code for the ablation studies and hallucination detection datasets. If you need additional datasets or code, please feel free to contact us.
-
-## 📄 Citation
-
-If you find this project useful, please consider citing:
-
-```bibtex
-@article{li2024efficient,
-  title={Efficient Dynamic Clustering-Based Document Compression for Retrieval-Augmented-Generation},
-  author={Li, Weitao and Liu, Kaiming and Zhang, Xiangyu and Lei, Xuanyu and Ma, Weizhi and Liu, Yang},
-  journal={arXiv preprint arXiv:2504.03165},
-  year={2024}
-}
-```
-
-## 🧠 Contact
-
-For questions or collaborations, please open an issue or contact us at:
-
-- Weitao Li — liwt23@mails.tsinghua.edu.cn
-- Kaiming Liu — lkm20@mails.tsinghua.edu.cn
 
 ---
