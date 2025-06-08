@@ -47,13 +47,13 @@ def compute_metrics(dataset):
     return round(em_score*100,2), round(f1_score*100,2)
 for topk in topkk:
     for noise in noises:
-        input_file = f"../../{benchmark}/extracted_answer/{date}_{dataset}_compress_{eval_method}_noise{noise}_topk{topk}.json"
+        input_file = f"/your_path/{benchmark}/extracted_answer/{date}_{dataset}_compress_{eval_method}_noise{noise}_topk{topk}.json"
         with open(input_file, "r", encoding="utf-8") as f:
             datasets = json.load(f)
         em_score, f1_score = compute_metrics(datasets)
         results.append([topk, noise, em_score, f1_score])
         print(f"{input_file}: EM: {em_score}, F1: {f1_score}")
 df = pd.DataFrame(results, columns=["TopK", "Noise", "EM Score", "F1 Score"]).T
-output_file = f"../../{benchmark}/tables/{date}_{dataset}_compress_{eval_method}_noise{noises}_topk{topkk}.xlsx"
+output_file = f"/your_path/{benchmark}/tables/{date}_{dataset}_compress_{eval_method}_noise{noises}_topk{topkk}.xlsx"
 df.to_excel(output_file, index=False)
 print(f"Results saved to {output_file}")

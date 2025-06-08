@@ -6,7 +6,7 @@ import sys
 import requests
 from requests.auth import HTTPBasicAuth
 import concurrent.futures
-from utils import GPT_Instruct_request, ChatGPT_request, llama3_request, GPT4o_request
+from utils import GPT_Instruct_request, ChatGPT_request, llama3_request, GPT4o_request, GPT4omini_request
 import re
 import ast
 
@@ -17,14 +17,13 @@ dataset = sys.argv[3]  # 496 or 300 or full
 topkk = ast.literal_eval(sys.argv[4])
 noises = ast.literal_eval(sys.argv[5])
 benchmark = sys.argv[6]
-if eval_model == "llama3_request":
-    assess_model = llama3_request
-elif eval_model == "GPT_Instruct_request":
+
+if eval_model == "GPT_Instruct_request":
     assess_model = GPT_Instruct_request
 elif eval_model == "ChatGPT_request":
     assess_model = ChatGPT_request
-elif eval_model == "GPT4o_request":
-    assess_model = GPT4o_request
+elif eval_model == "GPT4omini_request":
+    assess_model = GPT4omini_request
 
 filter_paragraph = ["No content to", "no content to", "I'm sorry", "I am sorry", "I can not provide", "I can't provide", "Could you clarify", "Sorry, I", "Could you clarify", "?"]
 
@@ -46,7 +45,7 @@ def _run_nli_GPT3(num, docs):
 """
     while True:
         try:
-            text = assess_model(prompt)
+            text = assess_model(prompt, max_tokens=2048)
             return text.strip()
         except Exception as e:
             print(f"An error occurred: {e}")
@@ -109,16 +108,20 @@ def process_slice(slice_cases):
 def run(topk, noise):
     global eval_model, date, dataset, benchmark
     eval_method = {
-        "llama3_request": "llama3",
         "GPT_Instruct_request": "3.5instruct",
-        "ChatGPT_request": "3.5turbo"
+        "ChatGPT_request": "3.5turbo",
+        "GPT4o_request": "4o",
+        "GPT4omini_request": "4omini",
     }.get(eval_model, eval_model)
     
-    res_file = f"../../{benchmark}/datasets/case_{date}_{dataset}_summary_baseline_compress_{eval_method}_noise{noise}_topk{topk}.json"
-    case_file = f"../../{benchmark}/datasets/{benchmark}_results_random_{dataset}_w_negative_passages_noise{noise}_topk{topk}_embedding.json"
+    res_file = f"your_path/{benchmark}/datasets/case_{date}_{dataset}_summary_baseline_compress_{eval_method}_noise{noise}_topk{topk}.json"
+    if dataset == "redundancy":
+        case_file = f"your_path/case_0327_rewrite_3.5turbo_webq_noise{noise}_topk{topk}.json"
+    else:
+        case_file = f"your_path/multihop_qa/{benchmark}/datasets/{benchmark}_results_random_{dataset}_w_negative_passages_noise{noise}_topk{topk}_embedding.json"
     with open(case_file, "r", encoding="utf-8") as lines:
         cases = json.load(lines)
-        num_slices = 20
+        num_slices = 100
         slice_length = len(cases) // num_slices
         slices = [cases[i:i+slice_length] for i in range(0, len(cases), slice_length)]
         final_result = []

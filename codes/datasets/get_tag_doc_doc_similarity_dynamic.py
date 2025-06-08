@@ -12,9 +12,8 @@ from copy import deepcopy
 
 topkk = ast.literal_eval(sys.argv[1])
 noises = ast.literal_eval(sys.argv[2])
-length = int(sys.argv[3])
-dataset = sys.argv[4]
-benchmark = sys.argv[5]
+dataset = sys.argv[3]
+benchmark = sys.argv[4]
 def calculate_cosine_similarity(vector1, vector2):
     similarity = cosine_similarity(vector1, vector2)[0][0]
     return similarity
@@ -69,18 +68,22 @@ def process_slice(slice_cases):
 
 for topk in topkk:
     for noise in noises:
-        res_file = f"../../{benchmark}/datasets/case_{dataset}_{benchmark}_ddtags_noise{noise}_topk{topk}_dynamic_{length}_embedding.json"
+        if topk <= 10:
+            length = 1
+        else :
+            length = 3
+        res_file = f"/your_path/{benchmark}/datasets/case_{dataset}_{benchmark}_ddtags_noise{noise}_topk{topk}_dynamic_{length}_embedding.json"
         if dataset == "redundancy":
             if topk == 30:
-                case_file = f"/disks/disk1/private/lwt/wikipedia/to_retrieve/DocGraph/QA_datasets_new/webq/datasets/case_0329_rewrite_3.5turbo_webq_noise{noise}_topk{topk}_embedding.json"
+                case_file = f"/your_path/webq/datasets/case_0329_rewrite_3.5turbo_webq_noise{noise}_topk{topk}_embedding.json"
             else:
-                case_file = f"/disks/disk1/private/lwt/wikipedia/to_retrieve/DocGraph/QA_datasets_new/webq/datasets/case_0327_rewrite_3.5turbo_webq_noise{noise}_topk{topk}_embedding.json"
+                case_file = f"/your_path/webq/datasets/case_0327_rewrite_3.5turbo_webq_noise{noise}_topk{topk}_embedding.json"
         else:
-            case_file = f"../../{benchmark}/datasets/{benchmark}_results_random_{dataset}_w_negative_passages_noise{noise}_topk{topk}_embedding.json"
+            case_file = f"/your_path/{benchmark}/datasets/{benchmark}_results_random_{dataset}_w_negative_passages_noise{noise}_topk{topk}_embedding.json"
         with open(case_file, "r", encoding="utf-8") as lines:
             cases = json.load(lines)
             json_data = []
-            num_slices = 10
+            num_slices = 100
             slice_length = len(cases) // num_slices
             slices = [cases[i:i+slice_length] for i in range(0, len(cases), slice_length)]
             final_result = []

@@ -8,8 +8,8 @@ from requests.auth import HTTPBasicAuth
 import concurrent.futures
 import sys
 from sklearn.metrics import roc_auc_score
-sys.path.insert(0, "../")
-from utils import GPT_Instruct_request, GPT4omini_request, ChatGPT_request, qwen_request
+sys.path.insert(0, "/your_path/codes")
+from utils import GPT_Instruct_request, GPT4omini_request, ChatGPT_request
 eval_model = GPT_Instruct_request
 import ast
 
@@ -19,11 +19,16 @@ dataset = sys.argv[2]
 eval_method = sys.argv[3]
 topkk = ast.literal_eval(sys.argv[4])
 noises = ast.literal_eval(sys.argv[5])
-length = sys.argv[6]
-summary_prompt = sys.argv[7]
-clustering_type = sys.argv[8]
-benchmark = sys.argv[9]
+summary_prompt = sys.argv[6]
+clustering_type = sys.argv[7]
+benchmark = sys.argv[8]
+#python extracted_answer_topkk_for_ddtags_dynamic.py 0513 full eval_3.5turbo "[5,10,20,30,50,70,100]" "[0,20,40,60,80,100]" "3" 0512_1 dynamic twowiki
 def _run_nli_GPT3turbo(case):
+    response = case["response"]
+    if summary_prompt != "1110":
+        response = response.replace("*","").split("Final Answer:")[-1].strip()
+    if summary_prompt == "0518":
+        response = response.replace("*","").split("Selected_Answer:")[-1].strip()
     prompt = f"""Task Description:
 You need to extract the essential information from a generated answer and reformat it to match the structure of the golden answer. We will provide a question, a golden nnswer, and a generated answer. Carefully compare the generated answer with the golden answer, and extract key information from the generated answer to make it as close as possible to the golden answer in format. This will facilitate subsequent evaluation using Exact Match (EM) and F1 metrics.
 
@@ -31,7 +36,7 @@ Input:
 
 Question: {case["question"]}
 Golden Answer: {case["answers"][0]}
-Generated Answer: {case["response"]}
+Generated Answer: {response}
 Requirements:
 
 Extract information from the generated answer that corresponds to the essential content of the golden answer.
@@ -61,12 +66,12 @@ def process_slice(slice_cases):
 
 def run(topk, noise):
     global eval_method, date, dataset, length, summary_prompt, clustering_type
-    case_file = f"../{benchmark}/results/{date}_{dataset}_ours_summary_{summary_prompt}_ddtags_{clustering_type}_{length}_{eval_method}_noise{noise}_topk{topk}.json"
-    res_file = f"../{benchmark}/extracted_answer/{date}_{dataset}_ours_summary_{summary_prompt}_ddtags_{clustering_type}_{length}_{eval_method}_noise{noise}_topk{topk}.json"
+    case_file = f"/your_path/{benchmark}/results/{date}_{dataset}_ours_summary_{summary_prompt}_ddtags_{clustering_type}_{length}_{eval_method}_noise{noise}_topk{topk}.json"
+    res_file = f"/your_path/{benchmark}/extracted_answer/{date}_{dataset}_ours_summary_{summary_prompt}_ddtags_{clustering_type}_{length}_{eval_method}_noise{noise}_topk{topk}.json"
     with open(case_file, "r", encoding="utf-8") as lines:
         cases = json.load(lines)
         json_data = []
-        num_slices = 10
+        num_slices = 100
         slice_length = len(cases) // num_slices
         slices = [cases[i:i+slice_length] for i in range(0, len(cases), slice_length)]
         final_result = []
@@ -81,6 +86,10 @@ def run(topk, noise):
             json.dump(final_result, json_file,  ensure_ascii=False, indent=4)
 for topk in topkk:
     for noise in noises:
+        if topk <= 10:
+            length = 1
+        else:
+            length = 3
         run(topk, noise)
         print(f"In Extracted Answer TopkK:{topk} Noise:{noise} Length:{length} Summary Prompt:{summary_prompt}")
 

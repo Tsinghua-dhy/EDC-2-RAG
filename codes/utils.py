@@ -15,74 +15,24 @@ def truncate_prompt(prompt, max_tokens):
   truncated_tokens = encoding.encode(prompt)[:max_tokens]
   return encoding.decode(truncated_tokens)
 
-api_key = #your_api_key
+api_key = "your_key"
 client = OpenAI(
-    base_url="https://svip.xty.app/v1",
+    base_url="your_url",
     api_key=api_key,
     http_client=httpx.Client(
-        base_url="https://svip.xty.app/v1",
+        base_url="your_url",
         follow_redirects=True,
     ),
 )
-api_4_key = #your_api_key
+api_4_key = "your_key"
 client_4 = OpenAI(
-    base_url="https://svip.xty.app/v1",
+    base_url="your_url",
     api_key=api_4_key,
     http_client=httpx.Client(
-        base_url="https://svip.xty.app/v1",
+        base_url="your_url",
         follow_redirects=True,
     ),
 )
-def llama3_request(prompt, temp=0.0): 
-  url = f"http://localhost:{8091}/v1"
-  prompt = [{
-        "role": "user",
-        "content": prompt
-    }]
-  client = OpenAI(
-        base_url=url,
-        api_key="token-abc123",
-    )
-  tokenizer = AutoTokenizer.from_pretrained("/disks/disk0/private/kaiming/ckpts/Llama-3.1-8B-Instruct")
-  prompt = tokenizer.apply_chat_template(prompt, tokenize=False, add_generation_prompt=True)
-  while(True):
-    try:
-      completion = client.completions.create(
-                model="/disks/disk0/private/kaiming/ckpts/Llama-3.1-8B-Instruct",
-                prompt=prompt,
-                temperature=temp,
-                max_tokens=4096,
-            )
-      return completion.choices[0].text.strip()
-    except Exception as e:
-      print(f"Error when calling deepseek: {e}")
-      time.sleep(5)
-
-def qwen_request(prompt, temp = 0.0): 
-  url = f"http://localhost:8092/v1"
-  prompt = [{
-        "role": "user",
-        "content": prompt
-    }]
-  client = OpenAI(
-        base_url=url,
-        api_key="token-abc123",
-    )
-  tokenizer = AutoTokenizer.from_pretrained("/disks/disk0/private/kaiming/ckpts/Qwen2.5-7B-Instruct")
-  prompt = tokenizer.apply_chat_template(prompt, tokenize=False, add_generation_prompt=True)
-  while(True):
-    try:
-      completion = client.completions.create(
-                model="qwen",
-                prompt=prompt,
-                temperature=temp,
-                max_tokens=4096,
-            )
-      return completion.choices[0].text.strip()
-    except Exception as e:
-      print(f"Error when calling deepseek: {e}")
-      time.sleep(5)
-
 def ChatGPT_request(prompt,temperature=0): 
   """
   Given a prompt and a dictionary of GPT parameters, make a request to OpenAI
@@ -138,38 +88,25 @@ def GPT_Instruct_request(prompt):
     except:
       print("ChatGPT ERROR")
 
-def GPT4o_request(prompt): 
-  '''
-  Given a prompt and a dictionary of GPT parameters, make a request to OpenAI
-  server and returns the response. 
-  ARGS:
-    prompt: a str prompt
-    gpt_parameter: a python dictionary with the keys indicating the names of  
-                   the parameter and the values indicating the parameter 
-                   values.   
-  RETURNS: 
-    a str of GPT-3's response. 
-  '''
-  # temp_sleep()
-  while(True):
+def GPT4omini_request(prompt, temperature=0.0):
+  while True:
     try:
       rst = client_4.chat.completions.create(
-        model="gpt-4o-2024-08-06",
-        temperature=0.0,
-        max_tokens = 512,
-        messages=[
-          {"role": "user", "content": prompt}
-        ]
+        model="gpt-4o-mini-2024-07-18",
+        temperature=temperature,
+        max_tokens=512,
+        messages=[{"role": "user", "content": prompt}]
       )
       return rst.choices[0].message.content.strip()
-    except:
-      print("ChatGPT ERROR")
+    except Exception as e:
+      print("ChatGPT ERROR:", e)
+      time.sleep(1)
 
 def run(topk, res_file, case_file, process_slice):
     topk = int(topk)    
     with open(case_file, "r", encoding="utf-8") as lines:
         cases = json.load(lines)
-        num_slices = 10
+        num_slices = 100
         slice_length = len(cases) // num_slices
         slices = [cases[i:i+slice_length] for i in range(0, len(cases), slice_length)]
         final_result = []
@@ -183,4 +120,3 @@ def run(topk, res_file, case_file, process_slice):
             final_result.extend(result)
         with open(res_file, "w", encoding = "utf-8" ) as json_file:
             json.dump(final_result, json_file,  ensure_ascii=False, indent=4)
-#print(GPT4o_request("hello, give me a introduction of yourself, are you gpt-4o?"))

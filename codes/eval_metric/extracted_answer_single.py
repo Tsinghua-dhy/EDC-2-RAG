@@ -8,7 +8,7 @@ from requests.auth import HTTPBasicAuth
 import concurrent.futures
 import sys
 from sklearn.metrics import roc_auc_score
-sys.path.insert(0, "../")
+sys.path.insert(0, "/your_path/codes")
 from utils import GPT_Instruct_request, GPT4omini_request, ChatGPT_request
 eval_model = GPT_Instruct_request
 
@@ -54,12 +54,12 @@ def process_slice(slice_cases):
 
 def run():
     global eval_method, date, dataset
-    res_file = f"../{benchmark}/extracted_answer/{date}_{dataset}_baseline_wo_retrieve_{eval_method}.json"
-    case_file = f"../../{benchmark}/results/{date}_{dataset}_baseline_wo_retrieve_{eval_method}.json"
+    res_file = f"/your_path/{benchmark}/extracted_answer/{date}_{dataset}_baseline_wo_retrieve_{eval_method}.json"
+    case_file = f"/your_path/{benchmark}/results/{date}_{dataset}_baseline_wo_retrieve_{eval_method}.json"
     with open(case_file, "r", encoding="utf-8") as lines:
         cases = json.load(lines)
         json_data = []
-        num_slices = 10
+        num_slices = 100
         slice_length = len(cases) // num_slices
         slices = [cases[i:i+slice_length] for i in range(0, len(cases), slice_length)]
         final_result = []

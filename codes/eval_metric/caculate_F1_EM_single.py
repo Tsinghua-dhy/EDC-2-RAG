@@ -44,7 +44,7 @@ def compute_metrics(dataset):
     f1_score = f1_total / len(dataset)
     return round(em_score*100,2), round(f1_score*100,2)
 
-input_file = f"../../{benchmark}/extracted_answer/{date}_{dataset}_baseline_wo_retrieve_{eval_method}.json"
+input_file = f"/your_path/{benchmark}/extracted_answer/{date}_{dataset}_baseline_wo_retrieve_{eval_method}.json"
 with open(input_file, "r", encoding="utf-8") as f:
     datasets = json.load(f)
 em_score, f1_score = compute_metrics(datasets)

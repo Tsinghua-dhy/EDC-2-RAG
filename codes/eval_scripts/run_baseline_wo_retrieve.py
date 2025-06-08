@@ -11,12 +11,14 @@ print("start_to_eval")
 subprocess.run(["python", "../run_methods/eval_baseline_wo_retrieve.py", eval_model, date, dataset,benchmark])
 print("end_eval")
 print("start_to_extracte_answer")
-if eval_model == "llama3_request":
-    eval_method = "eval_llama3"
-elif eval_model == "GPT_Instruct_request":
+if eval_model == "GPT_Instruct_request":
     eval_method = "eval_3.5instruct"
 elif eval_model == "GPT4o_request":
     eval_method = "eval_4o"
+elif eval_model == "GPT4omini_request":
+    eval_method = "eval_4omini"
+elif eval_model == "ChatGPT_request":
+    eval_method = "eval_3.5turbo"
 else:
     eval_method = "eval_3.5turbo"
 subprocess.run(["python", "../eval_metric/extracted_answer_single.py", date, dataset, eval_method,benchmark])
