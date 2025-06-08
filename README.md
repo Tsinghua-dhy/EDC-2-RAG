@@ -14,7 +14,7 @@ Retrieval-Augmented Generation (RAG) enhances LLM outputs by integrating externa
 * ✂️ **Query-aware Compression** using LLMs to eliminate irrelevant or redundant content.
 * 🧠 A more informative and coherent context for generation.
 
-![Overview](pictures/system_3(1).pdf)
+![Overview](pictures/overview.jpg)
 
 ## 🚀 Features
 
