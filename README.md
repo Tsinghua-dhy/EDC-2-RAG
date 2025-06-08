@@ -48,8 +48,6 @@ Retrieval-Augmented Generation (RAG) enhances LLM outputs by integrating externa
 
 Our method demonstrates consistent gains in F1 and accuracy across varying levels of noise and redundancy. See the full report for ablation and robustness experiments.
 
----
-
 ## 🧪 Getting Started
 
 ### 1. Install Dependencies
@@ -60,7 +58,7 @@ pip install -r requirements.txt
 
 ### 2. Prepare Data
 
-Download raw datasets of triviaqa and webq.
+Download the raw datasets for the following three benchmarks: **Musique**, **TwoWiki**, and **WebQuestions**.
 
 ### 3. Evaluate Results
 
@@ -68,6 +66,21 @@ Download raw datasets of triviaqa and webq.
 bash run.sh
 ```
 
-Up to now, we have only released the evaluation code and datasets related to the main experiments on TriviaQA and WebQ. We will later update the code for the ablation studies and hallucination detection datasets. If you need additional datasets or code, please feel free to contact us.
+The `run.sh` script performs the main evaluation pipeline. Specifically, it:
+
+1. **Builds datasets** from raw files for Musique, TwoWiki, and WebQuestions.
+2. **Runs evaluation** on each dataset using different top-k retrieval settings.
+
+Before running the script, please make sure the following conditions are met:
+
+* ✅ Your OpenAI API key is set correctly via the `OPENAI_API_KEY` environment variable.
+* ✅ The embedding model required for retrieval has been deployed and is ready to use.
+* ✅ The `[5,10,20,30,50,70,100]` list defines the **top-k** values for retrieval evaluation.
+* ✅ The `[0]` list defines the **noise levels** (with `0` meaning no additional noise).
+* ✅ You should **replace `date_here`** in `run.sh` with the actual date or any experiment tag to help organize and track results.
+
+> Note: As of now, we only release the evaluation code and the datasets used in the main experiments. Code and data for ablation studies and hallucination detection will be released in the future. If you need access earlier, feel free to contact us.
+
+
 
 
