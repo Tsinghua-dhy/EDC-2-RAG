@@ -4,7 +4,7 @@
 
 This repository contains the official implementation of **EDC²-RAG**, a plug-and-play document preprocessing framework that enhances Retrieval-Augmented Generation (RAG) by dynamically clustering and compressing retrieved documents. Our method improves the robustness, relevance, and factuality of LLM-based generation systems by leveraging fine-grained inter-document relationships.
 
-📢 This work has been accepted to **EMNLP 2025 Findings**. We’ll be presenting a poster on **Wednesday, Nov 5, 13:00–14:00 (Hall C)**.
+📢 This work has been accepted to **EMNLP 2025 Findings**. We’ll be presenting a poster on **Wednesday, Nov 5, 13:00–14:00 (Hall C Level 3)**.
 If you’re interested in RAG or document compression, feel free to drop by and chat with us!
 
 ## 🔍 Overview
